@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- 1. 구글 검색 결과 제목 및 설명 -->
-  <title>Room — Minimal macOS Apps by Roomn</title>
+  <!-- 1. 브라우저 탭 이름 및 검색 결과 제목 ("Room"으로 고정) -->
+  <title>Room</title>
   <meta name="description" content="조용한 집중과 절제된 경험을 위한 미니멀 macOS 앱 큐레이션 쇼케이스.">
 
-  <!-- 2. 구글 검색 상단 사이트 이름 고정 (Open Graph & JSON-LD) -->
+  <!-- 2. 구글 검색 및 공유 시 사이트 이름 고정 (Open Graph & JSON-LD) -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Roomn">
-  <meta property="og:title" content="Room — Minimal macOS Apps">
+  <meta property="og:site_name" content="Room">
+  <meta property="og:title" content="Room">
   <meta property="og:description" content="미니멀 macOS 앱 큐레이션 쇼케이스">
   <meta property="og:url" content="https://roomn.github.io/">
 
@@ -19,17 +19,29 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Roomn",
-    "alternateName": ["Room", "roomn.github.io"],
+    "name": "Room",
+    "alternateName": ["Roomn", "roomn.github.io"],
     "url": "https://roomn.github.io/"
   }
   </script>
 
-  <!-- 3. 파비콘 (보내주신 심볼이 내장된 SVG 파비콘 + 구글 검색용 PNG 연결) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='8' fill='%23ffffff'/%3E%3Cpath fill='%23000000' fill-rule='evenodd' d='M4 25 L10.5 11 L25.5 11 L32 25 L28.4 25 L23.8 14.8 L19.2 25 Z M11.8 15.2 L9.3 20.5 L14.3 20.5 Z'/%3E%3C/svg%3E">
-  <!-- 구글 검색 결과 동그란 아이콘 노출을 위해 루트에 96x96 크기 favicon.png를 추가해 두시면 좋습니다 -->
-  <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <!-- 3. 파비콘 (올려두신 favicon.png 단독 연결 + 브라우저 캐시 강제 갱신) -->
+  <link rel="icon" type="image/png" href="/favicon.png?v=10">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png?v=10">
+  <link rel="apple-touch-icon" href="/favicon.png?v=10">
+
+  <script>
+    window.addEventListener('load', function() {
+      const oldLinks = document.querySelectorAll("link[rel*='icon']");
+      oldLinks.forEach(el => el.parentNode.removeChild(el));
+
+      const newLink = document.createElement('link');
+      newLink.type = 'image/png';
+      newLink.rel = 'icon';
+      newLink.href = '/favicon.png?v=' + new Date().getTime();
+      document.head.appendChild(newLink);
+    });
+  </script>
 
   <style>
     :root {
@@ -131,7 +143,6 @@
       color: inherit;
       display: flex;
       flex-direction: column;
-      group: card;
     }
 
     /* 갤러리 전시 프레임 */
@@ -268,7 +279,6 @@
   <!-- 상단 네비게이션 -->
   <header class="header">
     <a href="/" class="brand-lockup" aria-label="Room Home">
-      <!-- 보내주신 로고 심볼 SVG -->
       <svg class="brand-symbol" viewBox="0 0 34 19" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill="#111111" fill-rule="evenodd" clip-rule="evenodd" d="M0.5 18.5L7.8 1.5H24.8L32.2 18.5H28.1L23.1 6.8L18.1 18.5H0.5ZM9.3 6.6L6.4 13.1H12.2L9.3 6.6Z"/>
       </svg>
@@ -294,7 +304,6 @@
   </footer>
 
   <script>
-    // 로컬 미리보기 및 네트워크 오류 대비 기본 앱 목록
     const FALLBACK_APPS = [
       {
         id: "odum",
