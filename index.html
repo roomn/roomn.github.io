@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- 1. 브라우저 탭 이름 및 검색 결과 제목 ("Room"으로 고정) -->
-  <title>Roomn</title>
-  <meta name="description" content="조용한 집중과 절제된 경험을 위한 미니멀 macOS 앱 큐레이션 쇼케이스.">
+  <title>Room</title>
+  <meta name="description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
 
-  <!-- 2. 구글 검색 및 공유 시 사이트 이름 고정 (Open Graph & JSON-LD) -->
+  <!-- 2. Open Graph / Link Preview Meta Tags (og-image.png 연결) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Room">
   <meta property="og:title" content="Room">
-  <meta property="og:description" content="미니멀 macOS 앱 큐레이션 쇼케이스">
+  <meta property="og:description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
+  <meta property="og:image" content="https://roomn.github.io/og-image.png?v=1">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://roomn.github.io/">
+
+  <!-- Twitter / X Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Room">
+  <meta name="twitter:description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
+  <meta name="twitter:image" content="https://roomn.github.io/og-image.png?v=1">
 
   <script type="application/ld+json">
   {
@@ -25,10 +35,10 @@
   }
   </script>
 
-  <!-- 3. 파비콘 (올려두신 favicon.png 단독 연결 + 브라우저 캐시 강제 갱신) -->
-  <link rel="icon" type="image/png" href="/favicon.png?v=10">
-  <link rel="shortcut icon" type="image/png" href="/favicon.png?v=10">
-  <link rel="apple-touch-icon" href="/favicon.png?v=10">
+  <!-- 3. 파비콘 (흰색 정사각형 배경 favicon.png + 캐시 강제 갱신) -->
+  <link rel="icon" type="image/png" href="/favicon.png?v=12">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png?v=12">
+  <link rel="apple-touch-icon" href="/favicon.png?v=12">
 
   <script>
     window.addEventListener('load', function() {
@@ -46,19 +56,47 @@
   <style>
     :root {
       --bg: #ffffff;
+      --header-bg: rgba(255, 255, 255, 0.86);
       --surface: #f5f5f7;
       --surface-hover: #ebebee;
+      --surface-elevated: #ffffff;
       --text-primary: #111111;
       --text-secondary: #6e6e73;
       --text-muted: #a1a1a6;
       --border: #e5e5ea;
+      --border-subtle: rgba(0, 0, 0, 0.06);
+      --accent-pill: #111111;
+      --accent-pill-text: #ffffff;
+      --backdrop: rgba(255, 255, 255, 0.74);
+      --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.08);
+      --shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.12);
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
       --max-width: 1040px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0a0a0c;
+      --header-bg: rgba(10, 10, 12, 0.84);
+      --surface: #141417;
+      --surface-hover: #1c1c21;
+      --surface-elevated: #16161a;
+      --text-primary: #f5f5f7;
+      --text-secondary: #98989f;
+      --text-muted: #636369;
+      --border: #26262b;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --accent-pill: #f5f5f7;
+      --accent-pill-text: #0a0a0c;
+      --backdrop: rgba(0, 0, 0, 0.72);
+      --shadow-card: 0 14px 32px rgba(0, 0, 0, 0.45);
+      --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.65);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -67,69 +105,179 @@
       color: var(--text-primary);
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* 상단 헤더 (좌측 로고 + 우측 Home / Me) */
+    /* 1. 상단 스티키 헤더 (스크롤 시 고정 + 블러 배경) */
+    .header-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      background-color: var(--header-bg);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, background-color 0.25s ease;
+    }
+
+    .header-wrapper.scrolled {
+      border-bottom-color: var(--border);
+    }
+
     .header {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 44px 28px 36px;
+      padding: 22px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
+    /* 좌측 로고: Roo + 기하학 심볼 (높이 및 비율 정렬) */
     .brand-lockup {
       display: inline-flex;
-      align-items: center;
-      gap: 11px;
+      align-items: baseline;
+      gap: 5px;
       text-decoration: none;
       color: var(--text-primary);
       transition: opacity 0.2s ease;
     }
 
     .brand-lockup:hover {
-      opacity: 0.75;
-    }
-
-    .brand-symbol {
-      width: 34px;
-      height: 19px;
-      display: block;
+      opacity: 0.72;
     }
 
     .brand-text {
-      font-size: 23px;
+      font-size: 26px;
       font-weight: 700;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.045em;
       line-height: 1;
     }
 
+    .brand-symbol {
+      width: 37px;
+      height: 19px;
+      display: block;
+      transform: translateY(0.5px);
+    }
+
+    .brand-symbol path {
+      fill: var(--text-primary);
+      transition: fill 0.25s ease;
+    }
+
+    /* 우측 내비게이션 (Home · Me · Donation · 테마 토글) */
     .nav {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
     }
 
-    .nav a {
+    .nav a,
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
       color: var(--text-secondary);
       letter-spacing: -0.01em;
+      cursor: pointer;
       transition: color 0.2s ease;
     }
 
     .nav a:hover,
-    .nav a.active {
+    .nav a.active,
+    .nav-btn:hover {
       color: var(--text-primary);
     }
 
-    /* 메인 3단 갤러리 그리드 */
-    .main {
+    .theme-toggle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.06);
+      background-color: var(--surface-hover);
+    }
+
+    /* 2. 버전 업데이트 알림 바 (새 버전 릴리즈 시 표시) */
+    .update-banner-wrap {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 20px 28px 96px;
+      padding: 18px 28px 0;
+      width: 100%;
+    }
+
+    .update-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .update-pill:hover {
+      background-color: var(--surface-hover);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    .update-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--text-primary);
+      flex-shrink: 0;
+      animation: pulse-dot 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .update-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .update-arrow {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* 3. 메인 3단 갤러리 그리드 */
+    .main {
+      max-width: var(--max-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 28px 96px;
+      flex: 1;
     }
 
     .gallery-grid {
@@ -143,6 +291,11 @@
       color: inherit;
       display: flex;
       flex-direction: column;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: inherit;
     }
 
     /* 갤러리 전시 프레임 */
@@ -150,6 +303,7 @@
       aspect-ratio: 1 / 1;
       background-color: var(--surface);
       border-radius: 24px;
+      border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -164,38 +318,105 @@
       transform: translateY(-4px);
     }
 
-    .app-icon {
-      width: 38%;
-      height: 38%;
-      object-fit: contain;
-      border-radius: 22.5%;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    /* 카드 우측 상단 버전/업데이트 마이크로 뱃지 */
+    .frame-status-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
     }
 
-    .app-card:hover .app-icon {
-      transform: scale(1.05);
+    .app-card:hover .frame-status-badge {
+      opacity: 1;
     }
 
-    /* 아이콘 이미지가 아직 없을 때 표시할 미니멀 플레이스홀더 */
-    .app-icon-placeholder {
+    .frame-status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--text-primary);
+    }
+
+    /* 애플 스퀴클 아이콘 래퍼 & 테마 */
+    .app-icon-wrap {
       width: 38%;
       height: 38%;
       border-radius: 22.5%;
-      background: #111111;
-      color: #ffffff;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--shadow-card);
+      position: relative;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .app-card:hover .app-icon-placeholder {
-      transform: scale(1.05);
+    .app-card:hover .app-icon-wrap {
+      transform: scale(1.06);
+    }
+
+    .app-icon-wrap.dark {
+      background-color: #0D0D0F;
+    }
+
+    .app-icon-wrap.navy {
+      background-color: #0B2149;
+    }
+
+    .app-icon-wrap.light {
+      background-color: #FFFFFF;
+      border: 1px solid #E5E5EA;
+    }
+
+    .app-icon-wrap svg,
+    .app-icon-wrap img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* 호버 시 아이콘 내부 라이브 마이크로 인터랙션 */
+    .app-card:hover .odum-top-dot {
+      animation: odum-breathe 1.6s infinite ease-in-out;
+    }
+
+    @keyframes odum-breathe {
+      0%, 100% { opacity: 1; r: 3.6px; }
+      50% { opacity: 0.45; r: 4.1px; }
+    }
+
+    .blnk-left-bar, .blnk-right-bar {
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .app-card:hover .blnk-left-bar {
+      transform: translateX(-1.8px);
+    }
+
+    .app-card:hover .blnk-right-bar {
+      transform: translateX(1.8px);
+    }
+
+    .muge-beam-group {
+      transform-origin: 34px 30px;
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .app-card:hover .muge-beam-group {
+      transform: rotate(-7deg);
     }
 
     .app-meta {
@@ -217,6 +438,7 @@
     }
 
     .app-badge {
+      font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
       color: var(--text-muted);
@@ -227,12 +449,299 @@
       font-size: 13.5px;
       color: var(--text-secondary);
       letter-spacing: -0.01em;
-      word-break: keep-all;
     }
 
-    /* 푸터 */
+    /* 4. App Store 스타일 상세 모달 & Donation 모달 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: var(--backdrop);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 520px;
+      background-color: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow-modal);
+      position: relative;
+      transform: translateY(10px) scale(0.98);
+      transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .modal-close:hover {
+      background-color: var(--surface-hover);
+      color: var(--text-primary);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-right: 36px;
+    }
+
+    .modal-icon-box {
+      width: 68px;
+      height: 68px;
+      border-radius: 22.5%;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .modal-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-title-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .modal-subtitle {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .modal-desc {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* App Store 'What's New' 버전 히스토리 박스 */
+    .whats-new-box {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .whats-new-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .whats-new-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .whats-new-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .whats-new-notes {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* App Store 4단 스펙 그리드 (Information) */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .spec-label {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .spec-value {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Apple App Store 'Data Not Collected' 프라이버시 라벨 */
+    .privacy-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .privacy-badge svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--text-primary);
+    }
+
+    .privacy-badge strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* 다운로드 버튼 & 미서명 앱 실행 안내 */
+    .modal-download-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 16px;
+      background-color: var(--accent-pill);
+      color: var(--accent-pill-text);
+      border-radius: 9999px;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .modal-download-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.01);
+    }
+
+    .modal-download-btn.disabled {
+      background-color: var(--surface);
+      color: var(--text-muted);
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .modal-guide-box {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .terminal-cmd-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
+    .terminal-cmd-row code {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-primary);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .copy-cmd-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .copy-cmd-btn:hover {
+      color: var(--text-primary);
+    }
+
+    /* 5. 푸터 */
     .footer {
       max-width: var(--max-width);
+      width: 100%;
       margin: 0 auto;
       padding: 32px 28px 64px;
       border-top: 1px solid var(--border);
@@ -243,12 +752,27 @@
       color: var(--text-muted);
     }
 
-    .footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .footer a:hover {
+    .footer a,
+    .footer-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .footer a:hover,
+    .footer-btn:hover {
       color: var(--text-primary);
     }
 
@@ -260,109 +784,473 @@
       }
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 560px) {
       .header {
-        padding: 32px 20px 28px;
+        padding: 18px 20px;
+      }
+      .update-banner-wrap {
+        padding: 14px 20px 0;
       }
       .main {
-        padding: 12px 20px 72px;
+        padding: 20px 20px 72px;
       }
       .gallery-grid {
         grid-template-columns: 1fr;
         gap: 32px;
+      }
+      .spec-grid {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 12px;
+      }
+      .footer {
+        padding: 28px 20px 48px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 상단 네비게이션 -->
-  <header class="header">
-    <a href="/" class="brand-lockup" aria-label="Room Home">
-      <svg class="brand-symbol" viewBox="0 0 34 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#111111" fill-rule="evenodd" clip-rule="evenodd" d="M0.5 18.5L7.8 1.5H24.8L32.2 18.5H28.1L23.1 6.8L18.1 18.5H0.5ZM9.3 6.6L6.4 13.1H12.2L9.3 6.6Z"/>
-      </svg>
-      <span class="brand-text">Room</span>
-    </a>
+  <!-- 1. 상단 스티키 헤더 (Roo + 기하학 심볼 로고 & Home / Me / Donation / 다크모드) -->
+  <div id="header-wrapper" class="header-wrapper">
+    <header class="header">
+      <a href="/" class="brand-lockup" aria-label="Room Home">
+        <span class="brand-text">Roo</span>
+        <svg class="brand-symbol" viewBox="0 0 36 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 18.5L8.2 1.2H26.4L34.5 18.5H29.8L24.5 6.8L19.2 18.5H0.5ZM10.1 6.5L7.1 13.1H13.1L10.1 6.5Z"/>
+        </svg>
+      </a>
 
-    <nav class="nav">
-      <a href="/" class="active">Home</a>
-      <a href="https://github.com/archmonth" target="_blank" rel="noopener">Me</a>
-    </nav>
-  </header>
+      <nav class="nav">
+        <a href="/" class="active">Home</a>
+        <a href="https://archmonth.github.io/" target="_blank" rel="noopener">Me</a>
+        <button type="button" class="nav-btn" onclick="openDonationModal()">Donation</button>
+        <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle color theme" title="Toggle Dark/Light Mode">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>
+          </svg>
+        </button>
+      </nav>
+    </header>
+  </div>
 
-  <!-- 메인 3단 갤러리 -->
+  <!-- 2. 최근 버전 업데이트 알림 슬림 배너 (클릭 시 해당 앱 모달 오픈) -->
+  <div id="update-banner-slot" class="update-banner-wrap"></div>
+
+  <!-- 3. 메인 3단 갤러리 -->
   <main class="main">
-    <section id="app-gallery" class="gallery-grid" aria-label="Apps Showcase">
-      <!-- apps.json 데이터가 여기에 자동으로 렌더링됩니다 -->
-    </section>
+    <section id="app-gallery" class="gallery-grid" aria-label="Apps Showcase"></section>
   </main>
 
+  <!-- 4. 푸터 (원클릭 Share Room & @archmonth) -->
   <footer class="footer">
     <span>© Roomn</span>
-    <a href="https://github.com/archmonth" target="_blank" rel="noopener">@archmonth</a>
+    <div class="footer-right">
+      <button type="button" id="share-room-btn" class="footer-btn" onclick="shareRoom()">Share Room</button>
+      <span>·</span>
+      <a href="https://archmonth.github.io/" target="_blank" rel="noopener">@archmonth</a>
+    </div>
   </footer>
 
+  <!-- 5. App Store 스타일 상세 모달 -->
+  <div id="app-modal" class="modal-backdrop" onclick="handleBackdropClick(event, 'app-modal')">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button type="button" class="modal-close" aria-label="Close modal" onclick="closeModal('app-modal')">×</button>
+      
+      <div class="modal-header">
+        <div id="modal-icon-slot" class="modal-icon-box"></div>
+        <div class="modal-title-group">
+          <div class="modal-title-line">
+            <h3 id="modal-title" class="modal-title">App Name</h3>
+            <span id="modal-tag" class="modal-tag">macOS</span>
+          </div>
+          <p id="modal-subtitle" class="modal-subtitle"></p>
+        </div>
+      </div>
+
+      <p id="modal-description" class="modal-desc"></p>
+
+      <!-- What's New (버전 업데이트 내역) -->
+      <div id="modal-whats-new" class="whats-new-box">
+        <div class="whats-new-header">
+          <span class="whats-new-title">What’s New</span>
+          <span id="modal-version-meta" class="whats-new-meta">v1.0.7</span>
+        </div>
+        <p id="modal-whats-new-text" class="whats-new-notes"></p>
+      </div>
+
+      <!-- App Store 4단 Information 그리드 -->
+      <div class="spec-grid">
+        <div class="spec-item">
+          <span class="spec-label">Version</span>
+          <span id="spec-version" class="spec-value">1.0.7</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Size</span>
+          <span id="spec-size" class="spec-value">4.2 MB</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">macOS</span>
+          <span id="spec-os" class="spec-value">13.0+</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Price</span>
+          <span id="spec-price" class="spec-value">Free</span>
+        </div>
+      </div>
+
+      <!-- Apple Data Not Collected 프라이버시 라벨 -->
+      <div class="privacy-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span><strong>Data Not Collected</strong> · Runs 100% locally on your Mac.</span>
+      </div>
+
+      <a id="modal-download-link" href="#" class="modal-download-btn" target="_blank" rel="noopener">Download</a>
+
+      <div id="modal-guide-box" class="modal-guide-box"></div>
+    </div>
+  </div>
+
+  <!-- 6. Donation 모달 (Interac 이메일 원클릭 복사) -->
+  <div id="donation-modal" class="modal-backdrop" onclick="handleBackdropClick(event, 'donation-modal')">
+    <div class="modal-card" role="dialog" aria-modal="true" style="max-width: 420px;">
+      <button type="button" class="modal-close" aria-label="Close modal" onclick="closeModal('donation-modal')">×</button>
+      <div class="modal-title-group">
+        <span class="spec-label">SUPPORT · CANADA</span>
+        <h3 class="modal-title" style="margin-top: 2px;">Support Room</h3>
+      </div>
+      <p class="modal-desc">
+        All tools in Room are free, ad-free, and built independently. If you enjoy using them, you can support the Apple Developer license ($99/yr) and future tools via Interac e-Transfer or email.
+      </p>
+      <div class="whats-new-box" style="flex-direction: row; align-items: center; justify-content: space-between;">
+        <span id="donation-email" style="font-family: var(--font-mono); font-size: 13.5px; font-weight: 600; color: var(--text-primary);">inkevc@gmail.com</span>
+      </div>
+      <button type="button" id="copy-donation-btn" class="modal-download-btn" onclick="copyDonationEmail()">Copy Email (inkevc@gmail.com)</button>
+    </div>
+  </div>
+
   <script>
-    const FALLBACK_APPS = [
+    /**
+     * ============================================================================
+     * [업데이트 관리 구역]
+     * 새 버전을 출시할 때 아래 LATEST_UPDATE와 APPS_DATA의 version, whatsNew만 수정하세요.
+     * ============================================================================
+     */
+    const LATEST_UPDATE = {
+      enabled: true,
+      appId: "odum",
+      version: "v1.0.7",
+      date: "Updated",
+      summary: "Odum v1.0.7 released — Smoother 3-second fade & Apple Silicon optimization"
+    };
+
+    const APPS_DATA = [
       {
         id: "odum",
         name: "Odum",
         tagline: "Fade into focus. Minimal menu bar timer.",
         platform: "macOS",
+        version: "1.0.7",
+        size: "4.2 MB",
+        minOs: "13.0+",
+        price: "Free",
+        isUpdated: true,
+        status: "Get",
+        theme: "dark",
         icon: "assets/odum.png",
-        url: "/odum/"
+        url: "/odum/",
+        whatsNew: "Refined 3-second auto-fade transition, lower menu bar memory footprint, and native Apple Silicon (aarch64) performance improvements.",
+        modalDesc: "Fade into focus. After 3 seconds of stillness, every button and indicator dissolves into pure darkness—leaving only clean numbers and a live menu bar timer.",
+        downloadText: "Download for macOS (.dmg) — Free",
+        downloadUrl: "https://github.com/archmonth/room/releases/download/odum-v1.0.7/Odum_1.0.7_aarch64.dmg",
+        terminalCmd: "xattr -cr /Applications/Odum.app"
       },
       {
         id: "blnk",
         name: "Blnk",
         tagline: "No login. Open with a PIN, delete forever.",
         platform: "macOS",
+        version: "1.0.0",
+        size: "3.8 MB",
+        minOs: "13.0+",
+        price: "Free",
+        isUpdated: false,
+        status: "Get",
+        theme: "navy",
         icon: "assets/blnk.png",
-        url: "/blnk/"
+        url: "/blnk/",
+        whatsNew: "Initial macOS release with local 4-digit PIN lock, categorized drawers, and instant permanent wipe.",
+        modalDesc: "Minimal offline bookmark organizer for macOS. Protected by a local 4-digit PIN with clean categorized drawers and an automatic focus screen.",
+        downloadText: "Download for macOS (.dmg) — Free",
+        downloadUrl: "https://github.com/archmonth/room/releases/download/blnk-v1.0.0/Blnk_1.0.0_aarch64.dmg",
+        terminalCmd: "xattr -cr /Applications/Blnk.app"
       },
       {
         id: "muge",
         name: "Muge",
-        tagline: "A minimal balance-scale to-do app that weighs your tasks against your daily energy.",
-        platform: "macOS",
+        tagline: "Weigh your tasks against your daily energy.",
+        platform: "Soon",
+        version: "0.9.0",
+        size: "—",
+        minOs: "13.0+",
+        price: "Free",
+        isUpdated: false,
+        status: "Soon",
+        theme: "light",
         icon: "assets/muge.png",
-        url: "/muge/"
+        url: "/muge/",
+        whatsNew: "Currently in final polish. Balance-scale interaction and daily energy calibration.",
+        modalDesc: "A minimal balance-scale to-do app for macOS that weighs your daily tasks against your available energy so you never overcommit.",
+        downloadText: "Coming Soon for macOS",
+        downloadUrl: "#",
+        terminalCmd: ""
       }
     ];
 
-    function renderApps(apps) {
-      const gallery = document.getElementById('app-gallery');
-      gallery.innerHTML = apps.map(app => `
-        <a href="${app.url}" class="app-card">
-          <div class="app-frame">
-            ${app.icon
-              ? `<img src="${app.icon}" alt="${app.name} Icon" class="app-icon" onerror="this.outerHTML='<div class=\\'app-icon-placeholder\\'>${app.name.charAt(0)}</div>'">`
-              : `<div class="app-icon-placeholder">${app.name.charAt(0)}</div>`
-            }
-          </div>
-          <div class="app-meta">
-            <div class="app-header">
-              <h2 class="app-name">${app.name}</h2>
-              <span class="app-badge">${app.platform || 'macOS'}</span>
-            </div>
-            <p class="app-tagline">${app.tagline}</p>
-          </div>
-        </a>
-      `).join('');
+    // 내장 고해상도 아이콘 SVG (호버 시 미세 인터랙션 클래스 포함)
+    const APP_SVGS = {
+      odum: `
+        <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="odum-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="2.4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <rect x="1" y="1" width="66" height="66" rx="15" fill="none" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1"/>
+          <circle class="odum-top-dot" cx="34" cy="17.5" r="3.6" fill="#FFFFFF" filter="url(#odum-glow)" />
+          <circle cx="34" cy="28.5" r="3.1" fill="#3A3A3F" />
+          <circle cx="34" cy="39.5" r="3.1" fill="#3A3A3F" />
+          <circle cx="34" cy="50.5" r="3.1" fill="#3A3A3F" />
+        </svg>
+      `,
+      blnk: `
+        <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="66" height="66" rx="15" fill="none" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1"/>
+          <g fill="#FFFFFF">
+            <rect class="blnk-left-bar" x="10" y="32.4" width="16" height="3.2" rx="1.6" />
+            <circle cx="34" cy="34" r="4.8" />
+            <rect class="blnk-right-bar" x="42" y="32.4" width="16" height="3.2" rx="1.6" />
+          </g>
+        </svg>
+      `,
+      muge: `
+        <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="muge-beam-group">
+            <line x1="14" y1="30" x2="54" y2="30" stroke="#111111" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="17" cy="24.5" r="2.8" fill="#111111"/>
+            <circle cx="51" cy="24.5" r="2.8" fill="#86868B"/>
+          </g>
+          <path d="M 34 34.5 L 27.5 46.5 H 40.5 Z" fill="#FFFFFF" stroke="#111111" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      `
+    };
+
+    // 상단 업데이트 알림 배너 렌더링
+    function renderUpdateBanner() {
+      const slot = document.getElementById('update-banner-slot');
+      if (!LATEST_UPDATE || !LATEST_UPDATE.enabled) {
+        slot.style.display = 'none';
+        return;
+      }
+      slot.innerHTML = `
+        <button type="button" class="update-pill" onclick="openAppModal('${LATEST_UPDATE.appId}')">
+          <span class="update-dot"></span>
+          <span class="update-tag">${LATEST_UPDATE.version}</span>
+          <span>${LATEST_UPDATE.summary}</span>
+          <span class="update-arrow">→</span>
+        </button>
+      `;
     }
 
+    // 메인 갤러리 렌더링
+    function renderApps(apps) {
+      const gallery = document.getElementById('app-gallery');
+      gallery.innerHTML = apps.map(app => {
+        const svgMarkup = APP_SVGS[app.id] || APP_SVGS.odum;
+        const badgeText = app.status === 'Soon' ? 'Soon' : `v${app.version}`;
+        const statusDot = app.isUpdated ? `<span class="frame-status-dot" title="Recently Updated"></span>` : '';
+
+        return `
+          <button type="button" class="app-card" onclick="openAppModal('${app.id}')">
+            <div class="app-frame">
+              <span class="frame-status-badge">
+                ${statusDot}
+                ${badgeText}
+              </span>
+              <div class="app-icon-wrap ${app.theme || 'dark'}">
+                ${svgMarkup}
+              </div>
+            </div>
+            <div class="app-meta">
+              <div class="app-header">
+                <h2 class="app-name">${app.name}</h2>
+                <span class="app-badge">${app.platform || 'macOS'}</span>
+              </div>
+              <p class="app-tagline">${app.tagline}</p>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // apps.json 로드 (외부 JSON이 있으면 병합하고, 없으면 내장 APPS_DATA 사용)
     async function loadGallery() {
       try {
         const response = await fetch('./apps.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('apps.json load failed');
-        const apps = await response.json();
-        renderApps(apps);
+        const remoteApps = await response.json();
+        const merged = APPS_DATA.map(localApp => {
+          const found = remoteApps.find(r => r.id === localApp.id);
+          return found ? { ...localApp, ...found, tagline: localApp.tagline } : localApp;
+        });
+        renderApps(merged);
       } catch (e) {
-        renderApps(FALLBACK_APPS);
+        renderApps(APPS_DATA);
       }
     }
 
+    // 앱 상세 모달 열기
+    function openAppModal(appId) {
+      const app = APPS_DATA.find(item => item.id === appId);
+      if (!app) return;
+
+      const iconSlot = document.getElementById('modal-icon-slot');
+      iconSlot.className = `modal-icon-box app-icon-wrap ${app.theme}`;
+      iconSlot.innerHTML = APP_SVGS[app.id] || '';
+
+      document.getElementById('modal-title').textContent = app.name;
+      document.getElementById('modal-tag').textContent = app.platform;
+      document.getElementById('modal-subtitle').textContent = app.tagline;
+      document.getElementById('modal-description').textContent = app.modalDesc;
+
+      document.getElementById('modal-version-meta').textContent = `Version ${app.version}`;
+      document.getElementById('modal-whats-new-text').textContent = app.whatsNew;
+
+      document.getElementById('spec-version').textContent = app.version;
+      document.getElementById('spec-size').textContent = app.size;
+      document.getElementById('spec-os').textContent = app.minOs;
+      document.getElementById('spec-price').textContent = app.price;
+
+      const downloadBtn = document.getElementById('modal-download-link');
+      downloadBtn.textContent = app.downloadText;
+      downloadBtn.href = app.downloadUrl;
+      downloadBtn.classList.toggle('disabled', app.status !== 'Get');
+
+      const guideBox = document.getElementById('modal-guide-box');
+      if (app.status === 'Get') {
+        guideBox.style.display = 'block';
+        guideBox.innerHTML = `
+          Drag <strong>${app.name}</strong> into your Applications folder. If macOS shows an unverified developer alert on first launch: open <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>, or run in Terminal:
+          <div class="terminal-cmd-row">
+            <code id="modal-terminal-code">${app.terminalCmd}</code>
+            <button type="button" id="copy-cmd-btn" class="copy-cmd-btn" onclick="copyTerminalCmd('${app.terminalCmd}')">Copy</button>
+          </div>
+        `;
+      } else {
+        guideBox.style.display = 'none';
+      }
+
+      document.getElementById('app-modal').classList.add('open');
+    }
+
+    function openDonationModal() {
+      document.getElementById('donation-modal').classList.add('open');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('open');
+    }
+
+    function handleBackdropClick(event, modalId) {
+      if (event.target.id === modalId) {
+        closeModal(modalId);
+      }
+    }
+
+    // 클립보드 복사 유틸리티
+    function copyToClipboard(text, callback) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(callback);
+      } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        callback();
+      }
+    }
+
+    function copyTerminalCmd(cmd) {
+      const btn = document.getElementById('copy-cmd-btn');
+      copyToClipboard(cmd, () => {
+        btn.textContent = 'Copied ✓';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+
+    function copyDonationEmail() {
+      const email = "inkevc@gmail.com";
+      const btn = document.getElementById('copy-donation-btn');
+      copyToClipboard(email, () => {
+        btn.textContent = 'Copied to Clipboard ✓';
+        setTimeout(() => { btn.textContent = 'Copy Email (inkevc@gmail.com)'; }, 1600);
+      });
+    }
+
+    function shareRoom() {
+      const roomUrl = "https://roomn.github.io/";
+      const btn = document.getElementById('share-room-btn');
+      copyToClipboard(roomUrl, () => {
+        btn.textContent = 'Copied ✓';
+        setTimeout(() => { btn.textContent = 'Share Room'; }, 1500);
+      });
+    }
+
+    // 다크 / 라이트 모드 자동 감지 및 수동 토글
+    function initTheme() {
+      const saved = localStorage.getItem('room-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('room-theme', next);
+    }
+
+    // 스크롤 시 스티키 헤더 하단 헤어라인 표시 & 키보드 단축키 (1, 2, 3, ESC)
+    window.addEventListener('scroll', () => {
+      const wrapper = document.getElementById('header-wrapper');
+      wrapper.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal('app-modal');
+        closeModal('donation-modal');
+      } else if (!document.querySelector('.modal-backdrop.open')) {
+        if (e.key === '1') openAppModal('odum');
+        if (e.key === '2') openAppModal('blnk');
+        if (e.key === '3') openAppModal('muge');
+      }
+    });
+
+    initTheme();
+    renderUpdateBanner();
     loadGallery();
   </script>
 </body>
