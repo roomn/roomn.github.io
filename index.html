@@ -85,26 +85,23 @@
       flex-direction: column;
     }
 
-    /* 1. 상단 스티키 헤더 (모든 페이지 공통) */
+    /* 1. 상단 스티키 헤더 (가로선 제거 & 순백색 배경 유지) */
     .header-wrapper {
       position: sticky;
       top: 0;
       z-index: 50;
       width: 100%;
       background-color: #ffffff;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.15s ease;
     }
 
-    .header-wrapper.scrolled {
-      border-bottom-color: var(--border);
-    }
-
+    /* 메인 그리드와 좌우 끝선을 완벽히 일치시킴 (max-width + 28px 패딩) */
     .header {
+      max-width: var(--max-width);
       width: 100%;
-      padding: 32px 44px;
+      margin: 0 auto;
+      padding: 34px 28px 26px;
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* 우측 메뉴를 로고 맨 윗선에 정렬 */
       justify-content: space-between;
     }
 
@@ -113,7 +110,7 @@
       border: none;
       padding: 0;
       display: inline-flex;
-      align-items: center;
+      align-items: flex-start;
       cursor: pointer;
       transition: opacity 0.2s ease;
     }
@@ -122,12 +119,14 @@
       opacity: 0.65;
     }
 
+    /* 로고 크기 약 12% 축소 (162x28 -> 142x24) 및 좌측 끝선 미세 보정 */
     .brand-logo-crop {
-      width: 162px;
-      height: 28px;
+      width: 142px;
+      height: 24px;
       position: relative;
       overflow: hidden;
       display: block;
+      margin-left: -3px; /* 이미지 내부 여백으로 인해 살짝 튀어나와 보이는 현상 보정 */
     }
 
     .brand-logo-crop img {
@@ -142,11 +141,12 @@
       -webkit-user-drag: none;
     }
 
-    /* 우측 상단 메뉴: Me, Support (Regular 굵기, 수평 정렬, 간격 36px) */
+    /* 우측 상단 메뉴: 로고의 맨 윗선(Top) 높이에 맞춰 정렬 */
     .nav {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 36px;
+      padding-top: 1px; /* 로고 그래픽 상단 선과 시각적 높이 일치 */
     }
 
     .nav-btn {
@@ -154,7 +154,7 @@
       border: none;
       padding: 0;
       font-family: inherit;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 400;
       line-height: 1;
       color: var(--text-nav);
@@ -173,7 +173,7 @@
       max-width: var(--max-width);
       width: 100%;
       margin: 0 auto;
-      padding: 28px 28px 112px;
+      padding: 20px 28px 112px;
       flex: 1;
     }
 
@@ -291,10 +291,12 @@
       line-height: 1.3;
     }
 
+    /* 설명 영역 2줄 높이(3em) 고정 -> 하단 macOS 배지 수평 정렬 */
     .app-tagline {
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.5;
+      min-height: 3em;
       letter-spacing: -0.01em;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -314,11 +316,17 @@
       line-height: 1.4;
     }
 
-    /* 3. 푸터 (모든 페이지 공통: 좌측 © Roomn 단독) */
-    .footer {
+    /* 3. 푸터 (메인 그리드와 좌측 정렬 통일) */
+    .footer-wrapper {
       width: 100%;
-      padding: 28px 44px 52px;
       border-top: 1px solid var(--border);
+    }
+
+    .footer {
+      max-width: var(--max-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 28px 52px;
       display: flex;
       align-items: center;
       font-size: 13.5px;
@@ -327,7 +335,7 @@
 
     @media (max-width: 900px) {
       .header {
-        padding: 26px 28px;
+        padding: 28px 28px 22px;
       }
       .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -340,24 +348,28 @@
 
     @media (max-width: 560px) {
       .header {
-        padding: 22px 20px;
+        padding: 24px 20px 18px;
       }
       .brand-logo-crop {
-        width: 140px;
-        height: 24px;
+        width: 126px;
+        height: 21px;
+        margin-left: -2px;
       }
       .nav {
-        gap: 26px;
+        gap: 24px;
       }
       .nav-btn {
-        font-size: 16px;
+        font-size: 15px;
       }
       .main {
-        padding: 20px 20px 76px;
+        padding: 16px 20px 76px;
       }
       .gallery-grid {
         grid-template-columns: 1fr;
         gap: 36px;
+      }
+      . app-tagline {
+        min-height: auto; /* 모바일 1단에서는 불필요한 여백 없이 자연스럽게 배치 */
       }
       .footer {
         padding: 24px 20px 44px;
@@ -367,7 +379,7 @@
 </head>
 <body>
 
-  <!-- 상단 헤더 (좌측 로고 & 우측 Me, Support) -->
+  <!-- 상단 헤더 (좌측 로고 & 우측 Me, Support 상단 정렬) -->
   <div id="header-wrapper" class="header-wrapper">
     <header class="header">
       <button type="button" class="brand-lockup" aria-label="Roomn Home" onclick="navigateTo('/', false)">
@@ -389,16 +401,18 @@
   </main>
 
   <!-- 하단 푸터 -->
-  <footer class="footer">
-    <span>© Roomn</span>
-  </footer>
+  <div class="footer-wrapper">
+    <footer class="footer">
+      <span>© Roomn</span>
+    </footer>
+  </div>
 
   <script>
     const FALLBACK_APPS = [
       {
         id: "odum",
         name: "Odum",
-        tagline: "Fade into focus. Minimal menu bar timer.",
+        tagline: "Fade into focus. A minimal cycle timer.",
         platform: "macOS",
         theme: "dark",
         icon: "/assets/odum.png"
@@ -406,7 +420,7 @@
       {
         id: "blnk",
         name: "Blnk",
-        tagline: "No login. Open with a PIN, delete forever.",
+        tagline: "No login. Save your links privately, access with a PIN, delete anytime.",
         platform: "macOS",
         theme: "navy",
         icon: "/assets/blnk.png"
@@ -490,7 +504,6 @@
       const gallery = document.getElementById('app-gallery');
       gallery.innerHTML = apps.map(app => {
         const iconMarkup = getAppIconMarkup(app);
-        // 단일 상세 페이지(/app/?id=앱ID)로 라우팅 통일
         const targetUrl = `/app/?id=${encodeURIComponent(app.id)}`;
 
         return `
@@ -527,11 +540,6 @@
         renderApps(FALLBACK_APPS);
       }
     }
-
-    window.addEventListener('scroll', () => {
-      const wrapper = document.getElementById('header-wrapper');
-      wrapper.classList.toggle('scrolled', window.scrollY > 8);
-    }, { passive: true });
 
     loadGallery();
   </script>
