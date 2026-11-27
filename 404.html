@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomn</title>
+  <link rel="icon" type="image/png" href="/favicon.png?v=12">
+  <style>
+    body {
+      margin: 0;
+      background-color: #ffffff;
+      color: #111111;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .not-found {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .not-found h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .home-btn {
+      background-color: #111111;
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    (async function handleLegacyRedirect() {
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const candidateId = segments.length > 0 ? segments[0].replace('.html', '').toLowerCase() : '';
 
+      const knownIds = new Set(['odum', 'blnk', 'muge']);
+
+      try {
+        const res = await fetch('/apps.json', { cache: 'no-cache' });
+        if (res.ok) {
+          const apps = await res.json();
+          apps.forEach(app => {
+            if (app && app.id) knownIds.add(app.id.toLowerCase());
+          });
+        }
+      } catch (e) {
+        // 네트워크 오류 시 기본 knownIds 사용
+      }
+
+      if (candidateId && knownIds.has(candidateId)) {
+        window.location.replace('/app/?id=' + encodeURIComponent(candidateId));
+        return;
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const box = document.getElementById('not-found-box');
+        if (box) box.style.display = 'flex';
+      });
+    })();
+  </script>
+</head>
+<body>
+  <div id="not-found-box" class="not-found">
+    <h1>Page not found</h1>
+    <button type="button" class="home-btn" onclick="window.location.href='/'">Back to Roomn</button>
+  </div>
+</body>
+</html>
