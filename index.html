@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- 1. 브라우저 탭 이름 및 검색 결과 제목 -->
   <title>Roomn</title>
   <meta name="description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
 
-  <!-- 2. Open Graph / Link Preview Meta Tags (og-image.png 연결) -->
+  <!-- Open Graph / Link Preview Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Room">
-  <meta property="og:title" content="Room">
+  <meta property="og:site_name" content="Roomn">
+  <meta property="og:title" content="Roomn">
   <meta property="og:description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
   <meta property="og:image" content="https://roomn.github.io/og-image.png?v=2">
   <meta property="og:image:type" content="image/png">
@@ -21,7 +20,7 @@
 
   <!-- Twitter / X Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Room">
+  <meta name="twitter:title" content="Roomn">
   <meta name="twitter:description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
   <meta name="twitter:image" content="https://roomn.github.io/og-image.png?v=2">
 
@@ -30,12 +29,12 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Roomn",
-    "alternateName": ["Roomn", "roomn.github.io"],
+    "alternateName": ["Room", "roomn.github.io"],
     "url": "https://roomn.github.io/"
   }
   </script>
 
-  <!-- 3. 파비콘 (흰색 정사각형 배경 favicon.png + 캐시 강제 갱신) -->
+  <!-- 공통 파비콘 (/favicon.png 고정 + 캐시 강제 갱신) -->
   <link rel="icon" type="image/png" href="/favicon.png?v=12">
   <link rel="shortcut icon" type="image/png" href="/favicon.png?v=12">
   <link rel="apple-touch-icon" href="/favicon.png?v=12">
@@ -60,7 +59,7 @@
       --surface-hover: #f0f0f0;
       --text-primary: #111111;
       --text-secondary: #4b5563;
-      --text-nav: #6b7280;
+      --text-nav: #555555;
       --text-footer: #6b7280;
       --tag-text: #374151;
       --tag-border: #e5e7eb;
@@ -86,7 +85,7 @@
       flex-direction: column;
     }
 
-    /* 1. 상단 스티키 헤더 (전체 너비 100% + 로고와 메뉴 하단 수평 정렬) */
+    /* 1. 상단 스티키 헤더 (모든 페이지 공통) */
     .header-wrapper {
       position: sticky;
       top: 0;
@@ -105,19 +104,16 @@
       width: 100%;
       padding: 32px 44px;
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: space-between;
     }
 
-    /* 좌측 상단 로고: og-image.png 여백 타이트 크롭 (<button> 적용) */
     .brand-lockup {
       background: none;
       border: none;
       padding: 0;
       display: inline-flex;
-      align-items: flex-end;
-      text-decoration: none;
-      color: var(--text-primary);
+      align-items: center;
       cursor: pointer;
       transition: opacity 0.2s ease;
     }
@@ -146,19 +142,18 @@
       -webkit-user-drag: none;
     }
 
-    /* 우측 상단 내비게이션 (Me, Support - Regular 굵기, 로고 하단과 수평 정렬) */
+    /* 우측 상단 메뉴: Me, Support (Regular 굵기, 수평 정렬, 간격 36px) */
     .nav {
       display: flex;
-      align-items: flex-end;
-      gap: 38px;
+      align-items: center;
+      gap: 36px;
     }
 
     .nav-btn {
       background: none;
       border: none;
-      padding: 0 0 2px 0;
+      padding: 0;
       font-family: inherit;
-      text-decoration: none;
       font-size: 17px;
       font-weight: 400;
       line-height: 1;
@@ -173,7 +168,7 @@
       color: var(--text-primary);
     }
 
-    /* 2. 메인 3단 갤러리 그리드 (최대 너비 1160px + 카드 간격 32px) */
+    /* 2. 메인 3단 갤러리 그리드 */
     .main {
       max-width: var(--max-width);
       width: 100%;
@@ -189,15 +184,12 @@
     }
 
     .app-card {
-      text-decoration: none;
-      color: inherit;
       display: flex;
       flex-direction: column;
       cursor: pointer;
       user-select: none;
     }
 
-    /* 갤러리 전시 프레임 (4:3 비율 + 호버 시 #F0F0F0) */
     .app-frame {
       aspect-ratio: 4 / 3;
       background-color: var(--surface);
@@ -215,7 +207,6 @@
       background-color: var(--surface-hover);
     }
 
-    /* 프레임 중앙 앱 아이콘 (104px × 104px, 둥글기 23px + 호버 시 1.03배 확대) */
     .app-icon-wrap {
       width: 104px;
       height: 104px;
@@ -240,7 +231,6 @@
       background-color: #0B2149;
     }
 
-    /* 흰색 아이콘(Muge) 옅은 외곽선 */
     .app-icon-wrap.light {
       background-color: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -285,7 +275,6 @@
       transform: rotate(-7deg);
     }
 
-    /* 카드 하단 텍스트 메타 영역: [제목 19px] → [설명 15px] → [플랫폼 태그 12px] */
     .app-meta {
       display: flex;
       flex-direction: column;
@@ -325,7 +314,7 @@
       line-height: 1.4;
     }
 
-    /* 3. 푸터 (전체 너비 100% + © Roomn 단독 배치) */
+    /* 3. 푸터 (모든 페이지 공통: 좌측 © Roomn 단독) */
     .footer {
       width: 100%;
       padding: 28px 44px 52px;
@@ -336,7 +325,6 @@
       color: var(--text-footer);
     }
 
-    /* 반응형 (태블릿 2단, 모바일 1단) */
     @media (max-width: 900px) {
       .header {
         padding: 26px 28px;
@@ -379,7 +367,7 @@
 </head>
 <body>
 
-  <!-- 1. 상단 스티키 헤더 (좌측 로고 홈 연결 & 우측 Me, Support 수평 정렬) -->
+  <!-- 상단 헤더 (좌측 로고 & 우측 Me, Support) -->
   <div id="header-wrapper" class="header-wrapper">
     <header class="header">
       <button type="button" class="brand-lockup" aria-label="Roomn Home" onclick="navigateTo('/', false)">
@@ -390,31 +378,30 @@
 
       <nav class="nav">
         <button type="button" class="nav-btn" onclick="navigateTo('https://archmonth.github.io/', true)">Me</button>
-        <button type="button" class="nav-btn" onclick="navigateTo('https://roomn.github.io/support/', false)">Support</button>
+        <button type="button" class="nav-btn" onclick="navigateTo('/support/', false)">Support</button>
       </nav>
     </header>
   </div>
 
-  <!-- 2. 메인 3단 갤러리 (중앙 정렬) -->
+  <!-- 메인 3단 갤러리 -->
   <main class="main">
     <section id="app-gallery" class="gallery-grid" aria-label="Apps Showcase"></section>
   </main>
 
-  <!-- 3. 푸터 (Share Room 및 @archmonth 제거) -->
+  <!-- 하단 푸터 -->
   <footer class="footer">
     <span>© Roomn</span>
   </footer>
 
   <script>
-    const APPS_DATA = [
+    const FALLBACK_APPS = [
       {
         id: "odum",
         name: "Odum",
         tagline: "Fade into focus. Minimal menu bar timer.",
         platform: "macOS",
         theme: "dark",
-        icon: "assets/odum.png",
-        url: "/odum/"
+        icon: "/assets/odum.png"
       },
       {
         id: "blnk",
@@ -422,8 +409,7 @@
         tagline: "No login. Open with a PIN, delete forever.",
         platform: "macOS",
         theme: "navy",
-        icon: "assets/blnk.png",
-        url: "/blnk/"
+        icon: "/assets/blnk.png"
       },
       {
         id: "muge",
@@ -431,12 +417,10 @@
         tagline: "Weigh your tasks against your daily energy.",
         platform: "macOS",
         theme: "light",
-        icon: "assets/muge.png",
-        url: "/muge/"
+        icon: "/assets/muge.png"
       }
     ];
 
-    // 내장 고해상도 아이콘 SVG (호버 시 미세 인터랙션 클래스 포함)
     const APP_SVGS = {
       odum: `
         <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
@@ -478,7 +462,6 @@
       `
     };
 
-    // URL 미리보기를 띄우지 않는 JavaScript 페이지 이동 함수
     function navigateTo(url, newTab = false) {
       if (newTab) {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -487,7 +470,6 @@
       }
     }
 
-    // 키보드(Enter / Space) 접근성 지원
     function handleCardKeydown(event, url) {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
@@ -495,12 +477,21 @@
       }
     }
 
-    // 메인 갤러리 렌더링 (<a href> 대신 <div role="link"> 사용하여 하단 URL 미리보기 방지)
+    function getAppIconMarkup(app) {
+      if (APP_SVGS[app.id]) return APP_SVGS[app.id];
+      if (app.icon) {
+        const cleanIconPath = app.icon.startsWith('/') ? app.icon : '/' + app.icon;
+        return `<img src="${cleanIconPath}" alt="${app.name}" onerror="this.outerHTML='<span style=\\'color:#fff;font-size:32px;font-weight:600;\\'>${app.name.charAt(0)}</span>'">`;
+      }
+      return `<span style="color:#fff;font-size:32px;font-weight:600;">${app.name.charAt(0)}</span>`;
+    }
+
     function renderApps(apps) {
       const gallery = document.getElementById('app-gallery');
       gallery.innerHTML = apps.map(app => {
-        const svgMarkup = APP_SVGS[app.id] || APP_SVGS.odum;
-        const targetUrl = app.url || `/${app.id}/`;
+        const iconMarkup = getAppIconMarkup(app);
+        // 단일 상세 페이지(/app/?id=앱ID)로 라우팅 통일
+        const targetUrl = `/app/?id=${encodeURIComponent(app.id)}`;
 
         return `
           <div
@@ -513,7 +504,7 @@
           >
             <div class="app-frame">
               <div class="app-icon-wrap ${app.theme || 'dark'}">
-                ${svgMarkup}
+                ${iconMarkup}
               </div>
             </div>
             <div class="app-meta">
@@ -526,23 +517,17 @@
       }).join('');
     }
 
-    // apps.json 로드 (외부 JSON이 있으면 병합하고, 없으면 내장 APPS_DATA 사용)
     async function loadGallery() {
       try {
-        const response = await fetch('./apps.json', { cache: 'no-cache' });
+        const response = await fetch('/apps.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('apps.json load failed');
         const remoteApps = await response.json();
-        const merged = APPS_DATA.map(localApp => {
-          const found = remoteApps.find(r => r.id === localApp.id);
-          return found ? { ...localApp, ...found, tagline: localApp.tagline } : localApp;
-        });
-        renderApps(merged);
+        renderApps(remoteApps);
       } catch (e) {
-        renderApps(APPS_DATA);
+        renderApps(FALLBACK_APPS);
       }
     }
 
-    // 스크롤 시 스티키 헤더 하단 헤어라인 표시
     window.addEventListener('scroll', () => {
       const wrapper = document.getElementById('header-wrapper');
       wrapper.classList.toggle('scrolled', window.scrollY > 8);
