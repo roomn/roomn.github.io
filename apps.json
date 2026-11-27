@@ -14,7 +14,11 @@
     "isAvailable": true,
     "downloadText": "Download for macOS",
     "downloadUrl": "https://github.com/roomn/roomn.github.io/releases/download/odum-v1.0.7/Odum_1.0.7_aarch64.dmg",
-    "preview": "/odum/assets/preview.png"
+    "previews": [
+      "/assets/odum-preview-1.png",
+      "/assets/odum-preview-2.png",
+      "/assets/odum-demo.mp4"
+    ]
   },
   {
     "id": "blnk",
@@ -31,7 +35,9 @@
     "isAvailable": true,
     "downloadText": "Download for macOS",
     "downloadUrl": "https://github.com/roomn/roomn.github.io/releases/download/blnk-v1.0.0/Blnk_1.0.0_aarch64.dmg",
-    "preview": "/blnk/assets/preview.png"
+    "previews": [
+      "/assets/blnk-preview-1.png"
+    ]
   },
   {
     "id": "muge",
@@ -48,6 +54,6 @@
     "isAvailable": false,
     "downloadText": "Coming Soon for macOS",
     "downloadUrl": "#",
-    "preview": "/muge/assets/preview.png"
+    "previews": []
   }
 ]
