@@ -2,25 +2,52 @@
   {
     "id": "odum",
     "name": "Odum",
-    "tagline": "화면의 몰입을 돕는 미니멀 어둠·배경 유틸리티",
+    "tagline": "Fade into focus. Minimal menu bar timer.",
     "platform": "macOS",
-    "icon": "assets/odum.png",
-    "url": "/odum/"
+    "theme": "dark",
+    "icon": "/assets/odum.png",
+    "url": "/app/?id=odum",
+    "category": "Focus",
+    "pricing": "Free",
+    "osRequirement": "macOS 13.0+",
+    "version": "v1.0.7",
+    "isAvailable": true,
+    "downloadText": "Download for macOS",
+    "downloadUrl": "https://github.com/archmonth/room/releases/download/odum-v1.0.7/Odum_1.0.7_aarch64.dmg",
+    "preview": "/odum/assets/preview.png"
   },
   {
     "id": "blnk",
     "name": "Blnk",
-    "tagline": "비워진 여백에서 시작하는 방해 없는 공간",
+    "tagline": "No login. Open with a PIN, delete forever.",
     "platform": "macOS",
-    "icon": "assets/blnk.png",
-    "url": "/blnk/"
+    "theme": "navy",
+    "icon": "/assets/blnk.png",
+    "url": "/app/?id=blnk",
+    "category": "Privacy",
+    "pricing": "Free",
+    "osRequirement": "macOS 13.0+",
+    "version": "v1.0.0",
+    "isAvailable": true,
+    "downloadText": "Download for macOS",
+    "downloadUrl": "https://github.com/archmonth/room/releases/download/blnk-v1.0.0/Blnk_1.0.0_aarch64.dmg",
+    "preview": "/blnk/assets/preview.png"
   },
   {
     "id": "muge",
     "name": "Muge",
-    "tagline": "작고 가벼운 작업 흐름을 위한 미니멀 도구",
+    "tagline": "Weigh your tasks against your daily energy.",
     "platform": "macOS",
-    "icon": "assets/muge.png",
-    "url": "/muge/"
+    "theme": "light",
+    "icon": "/assets/muge.png",
+    "url": "/app/?id=muge",
+    "category": "Productivity",
+    "pricing": "Free",
+    "osRequirement": "macOS 13.0+",
+    "version": "Soon",
+    "isAvailable": false,
+    "downloadText": "Coming Soon for macOS",
+    "downloadUrl": "#",
+    "preview": "/muge/assets/preview.png"
   }
 ]
