@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- 1. 브라우저 탭 이름 및 검색 결과 제목 ("Room"으로 고정) -->
+  <!-- 1. 브라우저 탭 이름 및 검색 결과 제목 -->
   <title>Roomn</title>
   <meta name="description" content="Quiet, minimal tools for macOS. Odum, Blnk, and Muge.">
 
@@ -60,6 +60,7 @@
       --surface-hover: #f0f0f0;
       --text-primary: #111111;
       --text-secondary: #4b5563;
+      --text-nav: #6b7280;
       --text-footer: #6b7280;
       --tag-text: #374151;
       --tag-border: #e5e7eb;
@@ -85,7 +86,7 @@
       flex-direction: column;
     }
 
-    /* 1. 상단 스티키 헤더 (전체 너비 100% + 상하 32px, 좌우 40px 여백) */
+    /* 1. 상단 스티키 헤더 (전체 너비 100% + 로고와 메뉴 하단 수평 정렬) */
     .header-wrapper {
       position: sticky;
       top: 0;
@@ -102,9 +103,9 @@
 
     .header {
       width: 100%;
-      padding: 32px 40px;
+      padding: 32px 44px;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
     }
 
@@ -114,7 +115,7 @@
       border: none;
       padding: 0;
       display: inline-flex;
-      align-items: center;
+      align-items: flex-end;
       text-decoration: none;
       color: var(--text-primary);
       cursor: pointer;
@@ -122,7 +123,7 @@
     }
 
     .brand-lockup:hover {
-      opacity: 0.6;
+      opacity: 0.65;
     }
 
     .brand-logo-crop {
@@ -145,29 +146,31 @@
       -webkit-user-drag: none;
     }
 
-    /* 우측 상단 내비게이션 (17.5px, 간격 34px, #111111 선명한 검정) */
+    /* 우측 상단 내비게이션 (Me, Support - Regular 굵기, 로고 하단과 수평 정렬) */
     .nav {
       display: flex;
-      align-items: center;
-      gap: 34px;
+      align-items: flex-end;
+      gap: 38px;
     }
 
     .nav-btn {
       background: none;
       border: none;
-      padding: 0;
+      padding: 0 0 2px 0;
       font-family: inherit;
       text-decoration: none;
-      font-size: 17.5px;
-      font-weight: 500;
-      color: var(--text-primary);
-      letter-spacing: -0.015em;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--text-nav);
+      letter-spacing: -0.01em;
       cursor: pointer;
-      transition: opacity 0.2s ease;
+      transition: color 0.15s ease;
     }
 
-    .nav-btn:hover {
-      opacity: 0.6;
+    .nav-btn:hover,
+    .nav-btn.active {
+      color: var(--text-primary);
     }
 
     /* 2. 메인 3단 갤러리 그리드 (최대 너비 1160px + 카드 간격 32px) */
@@ -322,38 +325,15 @@
       line-height: 1.4;
     }
 
-    /* 3. 푸터 (전체 너비 100% + 좌우 40px 여백) */
+    /* 3. 푸터 (전체 너비 100% + © Roomn 단독 배치) */
     .footer {
       width: 100%;
-      padding: 28px 40px 52px;
+      padding: 28px 44px 52px;
       border-top: 1px solid var(--border);
       display: flex;
-      justify-content: space-between;
       align-items: center;
       font-size: 13.5px;
       color: var(--text-footer);
-    }
-
-    .footer-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .footer-btn {
-      background: none;
-      border: none;
-      padding: 0;
-      font-family: inherit;
-      font-size: 13.5px;
-      color: var(--text-footer);
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.15s ease;
-    }
-
-    .footer-btn:hover {
-      color: var(--text-primary);
     }
 
     /* 반응형 (태블릿 2단, 모바일 1단) */
@@ -379,7 +359,7 @@
         height: 24px;
       }
       .nav {
-        gap: 22px;
+        gap: 26px;
       }
       .nav-btn {
         font-size: 16px;
@@ -399,19 +379,18 @@
 </head>
 <body>
 
-  <!-- 1. 상단 스티키 헤더 (모든 링크를 <button>으로 처리하여 하단 URL 미리보기 제거) -->
+  <!-- 1. 상단 스티키 헤더 (좌측 로고 홈 연결 & 우측 Me, Support 수평 정렬) -->
   <div id="header-wrapper" class="header-wrapper">
     <header class="header">
-      <button type="button" class="brand-lockup" aria-label="Room Home" onclick="navigateTo('/', false)">
+      <button type="button" class="brand-lockup" aria-label="Roomn Home" onclick="navigateTo('/', false)">
         <span class="brand-logo-crop">
-          <img src="/og-image.png" alt="Room">
+          <img src="/og-image.png" alt="Roomn">
         </span>
       </button>
 
       <nav class="nav">
-        <button type="button" class="nav-btn active" onclick="navigateTo('/', false)">Home</button>
         <button type="button" class="nav-btn" onclick="navigateTo('https://archmonth.github.io/', true)">Me</button>
-        <button type="button" id="donation-nav-btn" class="nav-btn" onclick="copyDonationEmail()">Donation</button>
+        <button type="button" class="nav-btn" onclick="navigateTo('https://roomn.github.io/support/', false)">Support</button>
       </nav>
     </header>
   </div>
@@ -421,14 +400,9 @@
     <section id="app-gallery" class="gallery-grid" aria-label="Apps Showcase"></section>
   </main>
 
-  <!-- 3. 푸터 (모든 링크를 <button>으로 처리하여 하단 URL 미리보기 제거) -->
+  <!-- 3. 푸터 (Share Room 및 @archmonth 제거) -->
   <footer class="footer">
     <span>© Roomn</span>
-    <div class="footer-right">
-      <button type="button" id="share-room-btn" class="footer-btn" onclick="shareRoom()">Share Room</button>
-      <span>·</span>
-      <button type="button" class="footer-btn" onclick="navigateTo('https://archmonth.github.io/', true)">@archmonth</button>
-    </div>
   </footer>
 
   <script>
@@ -566,43 +540,6 @@
       } catch (e) {
         renderApps(APPS_DATA);
       }
-    }
-
-    // 클립보드 복사 유틸리티
-    function copyToClipboard(text, callback) {
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text).then(callback);
-      } else {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-9999px';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        callback();
-      }
-    }
-
-    // 상단 Donation 클릭 시 모달 없이 즉시 이메일 복사
-    function copyDonationEmail() {
-      const email = "inkevc@gmail.com";
-      const btn = document.getElementById('donation-nav-btn');
-      copyToClipboard(email, () => {
-        btn.textContent = 'Email Copied ✓';
-        setTimeout(() => { btn.textContent = 'Donation'; }, 1600);
-      });
-    }
-
-    // 푸터 Share Room 링크 복사
-    function shareRoom() {
-      const roomUrl = "https://roomn.github.io/";
-      const btn = document.getElementById('share-room-btn');
-      copyToClipboard(roomUrl, () => {
-        btn.textContent = 'Copied ✓';
-        setTimeout(() => { btn.textContent = 'Share Room'; }, 1500);
-      });
     }
 
     // 스크롤 시 스티키 헤더 하단 헤어라인 표시
