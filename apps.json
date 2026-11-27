@@ -2,7 +2,7 @@
   {
     "id": "odum",
     "name": "Odum",
-    "tagline": "Fade into focus. Minimal menu bar timer.",
+    "tagline": "Fade into focus. A minimal cycle timer.",
     "platform": "macOS",
     "theme": "dark",
     "icon": "/assets/odum.png",
@@ -19,7 +19,7 @@
   {
     "id": "blnk",
     "name": "Blnk",
-    "tagline": "No login. Open with a PIN, delete forever.",
+    "tagline": "No login. Save your links privately, access with a PIN, delete anytime.",
     "platform": "macOS",
     "theme": "navy",
     "icon": "/assets/blnk.png",
