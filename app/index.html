@@ -6,24 +6,25 @@
   
   <title>App — Roomn</title>
   <meta name="description" content="Quiet, minimal tools for macOS.">
+  <link rel="canonical" href="https://roomn.github.io/app/">
 
-  <!-- 공통 파비콘 (/favicon.png 고정 + 캐시 강제 갱신) -->
-  <link rel="icon" type="image/png" href="/favicon.png?v=12">
-  <link rel="shortcut icon" type="image/png" href="/favicon.png?v=12">
-  <link rel="apple-touch-icon" href="/favicon.png?v=12">
+  <!-- 1. 구글 검색 및 소셜 공유(Open Graph / Twitter) 메타 태그 -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Roomn">
+  <meta property="og:title" content="App — Roomn">
+  <meta property="og:description" content="Quiet, minimal tools for macOS.">
+  <meta property="og:url" content="https://roomn.github.io/app/">
+  <meta property="og:image" content="https://roomn.github.io/og-image.png">
 
-  <script>
-    window.addEventListener('load', function() {
-      const oldLinks = document.querySelectorAll("link[rel*='icon']");
-      oldLinks.forEach(el => el.parentNode.removeChild(el));
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="App — Roomn">
+  <meta name="twitter:description" content="Quiet, minimal tools for macOS.">
+  <meta name="twitter:image" content="https://roomn.github.io/og-image.png">
 
-      const newLink = document.createElement('link');
-      newLink.type = 'image/png';
-      newLink.rel = 'icon';
-      newLink.href = '/favicon.png?v=' + new Date().getTime();
-      document.head.appendChild(newLink);
-    });
-  </script>
+  <!-- 2. 구글 검색 로봇이 파비콘을 놓치지 않도록 정적 태그 고정 (동적 삭제 스크립트 제거) -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
     :root {
@@ -771,8 +772,37 @@
       }
     });
 
+    function updateSeoMeta(app) {
+      const pageTitle = `${app.name} — Roomn`;
+      const pageDesc = app.tagline || 'Quiet, minimal tools for macOS.';
+      const pageUrl = `https://roomn.github.io/app/?id=${encodeURIComponent(app.id)}`;
+
+      document.title = pageTitle;
+
+      const descMeta = document.querySelector('meta[name="description"]');
+      if (descMeta) descMeta.setAttribute('content', pageDesc);
+
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink) canonicalLink.setAttribute('href', pageUrl);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', pageDesc);
+
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', pageUrl);
+
+      const twTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twTitle) twTitle.setAttribute('content', pageTitle);
+
+      const twDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twDesc) twDesc.setAttribute('content', pageDesc);
+    }
+
     function renderAppDetail(app) {
-      document.title = `${app.name} — Roomn`;
+      updateSeoMeta(app);
       const root = document.getElementById('app-detail-root');
       const iconMarkup = getAppIconMarkup(app);
       const previewsMarkup = getPreviewsMarkup(app);
