@@ -1,1 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Support — Roomn</title>
+  <meta name="description" content="Support independent macOS development and find guides for Roomn apps.">
+  <link rel="canonical" href="https://roomn.github.io/support/">
 
+  <!-- 구글 검색 및 소셜 공유 메타 태그 -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Roomn">
+  <meta property="og:title" content="Support — Roomn">
+  <meta property="og:description" content="Support independent macOS development and find guides for Roomn apps.">
+  <meta property="og:url" content="https://roomn.github.io/support/">
+  <meta property="og:image" content="https://roomn.github.io/og-image.png">
+
+  <!-- 파비콘 설정 -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f7f7;
+      --text-primary: #111111;
+      --text-secondary: #4b5563;
+      --text-nav: #555555;
+      --text-footer: #6b7280;
+      --border: #e5e7eb;
+      --max-width: 1400px; /* 헤더·푸터 1400px 통일 */
+      --content-max-width: 800px; /* 본문 800px 중앙 집중 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scrollbar-gutter: stable;
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard", "Inter", sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: clip;
+    }
+
+    /* 1. 상단 헤더 */
+    .header-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      background-color: #ffffff;
+    }
+
+    .header {
+      max-width: var(--max-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: 34px 28px 26px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .brand-lockup {
+      background: none;
+      border: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .brand-lockup:hover {
+      opacity: 0.65;
+    }
+
+    .brand-logo-crop {
+      width: 142px;
+      height: 24px;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      margin-left: -3px;
+    }
+
+    .brand-logo-crop img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 470%;
+      width: auto;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .nav {
+      display: flex;
+      align-items: flex-start;
+      gap: 36px;
+      padding-top: 1px;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--text-nav);
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-btn.active {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* 2. 서포트 페이지 본문 (800px 중앙 집중) */
+    .main {
+      max-width: var(--content-max-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 28px 112px;
+      flex: 1;
+    }
+
+    .support-hero {
+      margin-bottom: 56px;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+
+    .page-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+      max-width: 620px;
+    }
+
+    /* Ko-fi 후원 버튼 */
+    .support-cta-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+
+    .support-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 26px;
+      border-radius: 999px;
+      background-color: #111111;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, transform 0.12s ease;
+    }
+
+    .support-btn:hover {
+      background-color: #2a2a2a;
+    }
+
+    .support-btn:active {
+      transform: scale(0.97);
+    }
+
+    .support-note {
+      font-size: 14px;
+      color: #6b7280;
+      letter-spacing: -0.01em;
+    }
+
+    /* FAQ 섹션 */
+    .faq-section {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      border-top: 1px solid var(--border);
+      padding-top: 48px;
+    }
+
+    .section-heading {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .faq-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .faq-question {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .faq-answer {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-answer code {
+      background-color: var(--surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13.5px;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .contact-link {
+      color: var(--text-primary);
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: opacity 0.15s ease;
+    }
+
+    .contact-link:hover {
+      opacity: 0.65;
+    }
+
+    /* 3. 하단 푸터 */
+    .footer-wrapper {
+      width: 100%;
+    }
+
+    .footer {
+      max-width: var(--max-width);
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 28px 52px;
+      display: flex;
+      align-items: center;
+      font-size: 13.5px;
+      color: var(--text-footer);
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        padding: 28px 28px 22px;
+      }
+      .footer {
+        padding: 26px 28px 48px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header {
+        padding: 24px 20px 18px;
+      }
+      .brand-logo-crop {
+        width: 126px;
+        height: 21px;
+        margin-left: -2px;
+      }
+      .nav {
+        gap: 24px;
+      }
+      .nav-btn {
+        font-size: 15px;
+      }
+      .main {
+        padding: 16px 20px 76px;
+      }
+      .page-title {
+        font-size: 34px;
+      }
+      .page-subtitle {
+        font-size: 16.5px;
+      }
+      .support-cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 48px;
+      }
+      .footer {
+        padding: 24px 20px 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 헤더 -->
+  <div class="header-wrapper">
+    <header class="header">
+      <button type="button" class="brand-lockup" aria-label="Roomn Home" onclick="navigateTo('/', false)">
+        <span class="brand-logo-crop">
+          <img src="/og-image.png" alt="Roomn">
+        </span>
+      </button>
+
+      <nav class="nav">
+        <button type="button" class="nav-btn" onclick="navigateTo('https://archmonth.github.io/', true)">Me</button>
+        <button type="button" class="nav-btn active" onclick="navigateTo('/support/', false)">Support</button>
+      </nav>
+    </header>
+  </div>
+
+  <!-- 서포트 본문 영역 -->
+  <main class="main">
+    <div class="support-hero">
+      <h1 class="page-title">Support Roomn</h1>
+      <p class="page-subtitle">Roomn builds quiet, minimal tools for macOS. If they save you time and keep your workspace focused, consider supporting independent development.</p>
+
+      <div class="support-cta-box">
+        <!-- 💡 Ko-fi 개설 후 아래 href 링크를 본인의 ko-fi 주소로 변경하세요 -->
+        <a href="https://ko-fi.com/roomn" target="_blank" rel="noopener noreferrer" class="support-btn">
+          Support on Ko-fi
+        </a>
+        <span class="support-note">Secure payment via Apple Pay, Google Pay, or Card.</span>
+      </div>
+    </div>
+
+    <section class="faq-section">
+      <h2 class="section-heading">Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Why does macOS say the app is from an "unidentified developer"?</h3>
+        <p class="faq-answer">
+          Roomn apps are independently built and distributed without a paid Apple Developer certificate. On first launch, macOS may block the app. To open it safely: go to <code>System Settings > Privacy & Security</code>, scroll down, and click <strong>Open Anyway</strong>.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Are Roomn apps truly free?</h3>
+        <p class="faq-answer">
+          Yes. All core features of Roomn apps are free to download and use without mandatory logins or hidden subscriptions. Voluntary support helps keep future updates coming.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Need help or want to report a bug?</h3>
+        <p class="faq-answer">
+          Reach out directly via email at <a href="mailto:your-email@gmail.com" class="contact-link">your-email@gmail.com</a> and I'll get back to you as soon as possible.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 하단 푸터 -->
+  <div class="footer-wrapper">
+    <footer class="footer">
+      <span>© Roomn</span>
+    </footer>
+  </div>
+
+  <script>
+    function navigateTo(url, newTab = false) {
+      if (newTab) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = url;
+      }
+    }
+  </script>
+</body>
+</html>
