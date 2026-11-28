@@ -34,8 +34,8 @@
       --text-nav: #555555;
       --text-footer: #6b7280;
       --border: #eaeaea;
-      --max-width: 1160px;
-      --content-max-width: 800px; /* 상세 본문 전용 컨테이너 폭 */
+      --max-width: 1400px; /* 헤더·푸터 1400px 통일 */
+      --content-max-width: 800px; /* 상세 본문 800px 중앙 집중 */
     }
 
     * {
@@ -43,6 +43,11 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scrollbar-gutter: stable; /* 메인 페이지와 로고 위치 1px 오차 없이 고정 */
+      overflow-x: clip;
     }
 
     body {
@@ -54,9 +59,10 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: clip;
     }
 
-    /* 1. 상단 스티키 헤더 (1160px 유지, 가로선 제거 & 상단 정렬) */
+    /* 1. 상단 스티키 헤더 (1400px 유지) */
     .header-wrapper {
       position: sticky;
       top: 0;
@@ -131,37 +137,17 @@
       transition: color 0.15s ease;
     }
 
-    .nav-btn:hover,
-    .nav-btn.active {
+    .nav-btn:hover {
       color: var(--text-primary);
     }
 
-    /* 2. 상세 페이지 메인 컨테이너 (800px 중앙 집중형 단일 컬럼) */
+    /* 2. 상세 페이지 메인 컨테이너 (800px 중앙 집중형) */
     .main {
       max-width: var(--content-max-width);
       width: 100%;
       margin: 0 auto;
-      padding: 28px 28px 112px;
+      padding: 32px 28px 112px;
       flex: 1;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      color: var(--text-nav);
-      text-decoration: none;
-      margin-bottom: 36px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      transition: color 0.15s ease;
-    }
-
-    .back-link:hover {
-      color: var(--text-primary);
     }
 
     /* 앱 상단 히어로 영역 */
@@ -169,10 +155,9 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 52px;
+      margin-bottom: 56px;
     }
 
-    /* 앱 아이콘 (108x108px, 둥근 사각형 비율 유지) */
     .app-icon-wrap {
       width: 108px;
       height: 108px;
@@ -206,7 +191,6 @@
       object-fit: cover;
     }
 
-    /* 앱 타이틀 크기 확대 (46px, 자간 -0.025em) */
     .app-title {
       font-size: 46px;
       font-weight: 700;
@@ -225,28 +209,30 @@
       max-width: 580px;
     }
 
-    /* 알약 모양 다운로드 버튼 + ⓘ 아이콘 가로 중앙 정렬 */
+    /* 알약 모양 Get 버튼 + ⓘ 아이콘 (모바일 오터치 방지 간격 확보) */
     .download-action-row {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       position: relative;
-      margin-bottom: 36px;
+      margin-bottom: 44px;
     }
 
     .download-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      min-width: 92px;
       background-color: #111111;
       color: #ffffff;
       font-size: 15px;
       font-weight: 500;
-      padding: 12px 24px;
+      padding: 12px 28px;
       border-radius: 999px;
       text-decoration: none;
       letter-spacing: -0.01em;
       line-height: 1.2;
+      user-select: none;
       transition: background-color 0.15s ease, transform 0.15s ease;
     }
 
@@ -268,8 +254,8 @@
     }
 
     .info-trigger-btn {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -314,7 +300,6 @@
       transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
     }
 
-    /* 마우스 이동 시 팝오버가 닫히지 않도록 이어주는 투명 브릿지 */
     .notarize-popover::before {
       content: "";
       position: absolute;
@@ -370,34 +355,36 @@
       text-decoration: underline;
     }
 
-    /* 메타 정보 스펙 바 */
+    /* 메타 정보 스펙 바 (상단 구분선 제거 & 640px 폭 4등분 균등 배치) */
     .meta-specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px 40px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px 32px;
       width: 100%;
+      max-width: 640px;
     }
 
     .spec-item {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
+      min-width: 0;
     }
 
     .spec-label {
       font-size: 12px;
       color: #888888;
+      white-space: nowrap;
     }
 
     .spec-value {
       font-size: 14.5px;
       font-weight: 500;
       color: var(--text-primary);
+      white-space: nowrap;
     }
 
-    /* 3. Preview 소제목 및 다중 미리보기 영역 */
+    /* 3. Preview 소제목 및 16:10 풀블리드 카드 영역 */
     .previews-wrapper {
       display: flex;
       flex-direction: column;
@@ -419,20 +406,31 @@
     }
 
     .preview-box {
+      position: relative;
       width: 100%;
+      aspect-ratio: 16 / 10;
       background-color: var(--surface);
       border-radius: 20px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 380px;
+    }
+
+    /* 밝은 배경 스크린샷도 카드 경계가 흐려지지 않도록 보호하는 1px 미세 안쪽 테두리 */
+    .preview-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      pointer-events: none;
     }
 
     .preview-box img,
     .preview-box video {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
       object-fit: cover;
     }
@@ -440,14 +438,13 @@
     .preview-placeholder {
       font-size: 14px;
       color: #888888;
-      padding: 80px 20px;
+      padding: 40px 20px;
       text-align: center;
     }
 
-    /* 4. 푸터 (1160px 유지) */
+    /* 4. 하단 푸터 (상단 가로선 제거 & 1400px 유지) */
     .footer-wrapper {
       width: 100%;
-      border-top: 1px solid var(--border);
     }
 
     .footer {
@@ -470,7 +467,16 @@
       }
     }
 
-    /* 모바일 뷰포트 대응 및 팝오버 왼쪽/오른쪽 잘림 완벽 방지 */
+    /* 중간 화면 및 모바일에서 스펙 줄바꿈 깨짐 방지 (2x2 그리드 전환) */
+    @media (max-width: 640px) {
+      .meta-specs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 28px;
+        max-width: 100%;
+      }
+    }
+
+    /* 아이폰 등 모바일 뷰포트 대응 및 팝오버 왼쪽/오른쪽 잘림 완벽 방지 */
     @media (max-width: 560px) {
       .header {
         padding: 24px 20px 18px;
@@ -489,11 +495,8 @@
       .main {
         padding: 16px 20px 76px;
       }
-      .back-link {
-        margin-bottom: 30px;
-      }
       .app-hero {
-        margin-bottom: 44px;
+        margin-bottom: 48px;
       }
       .app-icon-wrap {
         width: 100px;
@@ -510,9 +513,9 @@
         margin-bottom: 24px;
       }
       .download-action-row {
-        margin-bottom: 32px;
+        margin-bottom: 36px;
       }
-      /* 모바일에서는 팝오버 기준점을 .download-action-row(버튼 왼쪽 끝)로 변경하여 화면 밖 잘림 방지 */
+      /* 모바일에서는 팝오버 기준점을 .download-action-row(Get 버튼 왼쪽 끝)로 고정 */
       .info-popover-wrapper {
         position: static;
       }
@@ -530,16 +533,14 @@
       .info-popover-wrapper.active .notarize-popover {
         transform: translateY(0);
       }
-      .meta-specs {
-        gap: 20px 28px;
-        padding-top: 20px;
-      }
       .section-heading {
         font-size: 21px;
         margin-bottom: 16px;
       }
+      .previews-section {
+        gap: 20px;
+      }
       .preview-box {
-        min-height: 220px;
         border-radius: 16px;
       }
       .footer {
@@ -566,16 +567,12 @@
     </header>
   </div>
 
-  <!-- 상세 페이지 메인 영역 -->
+  <!-- 상세 페이지 메인 영역 (← All Apps 제거됨) -->
   <main class="main">
-    <button type="button" class="back-link" onclick="navigateTo('/', false)">
-      ← All Apps
-    </button>
-
     <div id="app-detail-root"></div>
   </main>
 
-  <!-- 하단 푸터 -->
+  <!-- 하단 푸터 (구분선 없음) -->
   <div class="footer-wrapper">
     <footer class="footer">
       <span>© Roomn</span>
@@ -596,7 +593,7 @@
         osRequirement: "macOS 13.0+",
         version: "v1.0.7",
         isAvailable: true,
-        downloadText: "Download for macOS",
+        downloadText: "Get",
         downloadUrl: "https://github.com/roomn/roomn.github.io/releases/download/odum-v1.0.7/Odum_1.0.7_aarch64.dmg",
         previews: []
       },
@@ -612,7 +609,7 @@
         osRequirement: "macOS 13.0+",
         version: "v1.0.0",
         isAvailable: true,
-        downloadText: "Download for macOS",
+        downloadText: "Get",
         downloadUrl: "https://github.com/roomn/roomn.github.io/releases/download/blnk-v1.0.0/Blnk_1.0.0_aarch64.dmg",
         previews: []
       },
@@ -628,7 +625,7 @@
         osRequirement: "macOS 13.0+",
         version: "Soon",
         isAvailable: false,
-        downloadText: "Coming Soon for macOS",
+        downloadText: "Soon",
         downloadUrl: "#",
         previews: []
       }
@@ -692,6 +689,12 @@
       return `<span style="color:#fff;font-size:32px;font-weight:600;">${app.name.charAt(0)}</span>`;
     }
 
+    function getButtonLabel(app) {
+      if (!app.isAvailable) return 'Soon';
+      if (!app.downloadText || /download for macos/i.test(app.downloadText)) return 'Get';
+      return app.downloadText;
+    }
+
     function getPreviewsMarkup(app) {
       let mediaList = [];
       if (Array.isArray(app.previews) && app.previews.length > 0) {
@@ -715,13 +718,13 @@
         if (isVideo) {
           return `
             <div class="preview-box">
-              <video src="${cleanPath}" autoplay loop muted playsinline></video>
+              <video src="${cleanPath}" autoplay loop muted playsinline preload="metadata"></video>
             </div>
           `;
         }
         return `
           <div class="preview-box">
-            <img src="${cleanPath}" alt="${app.name} preview" onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>Preview image coming soon</div>'">
+            <img src="${cleanPath}" alt="${app.name} preview" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'preview-placeholder\\'>Preview image coming soon</div>'">
           </div>
         `;
       }).join('');
@@ -761,6 +764,7 @@
       const root = document.getElementById('app-detail-root');
       const iconMarkup = getAppIconMarkup(app);
       const previewsMarkup = getPreviewsMarkup(app);
+      const buttonLabel = getButtonLabel(app);
 
       const infoPopoverMarkup = app.isAvailable ? `
         <div id="info-popover-wrapper" class="info-popover-wrapper">
@@ -802,7 +806,7 @@
               class="download-btn ${app.isAvailable ? '' : 'disabled'}"
               ${app.isAvailable ? 'download' : 'aria-disabled="true"'}
             >
-              ${app.downloadText || 'Download for macOS'}
+              ${buttonLabel}
             </a>
             ${infoPopoverMarkup}
           </div>
